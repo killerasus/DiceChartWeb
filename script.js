@@ -28,11 +28,11 @@ function computeRolls(dice, amount) {
     var diceRolls = [];
 
     // Initializes the array
-    for (var i = 0; i < 1000; ++i) {
+    for (var i = 0; i < 10000; ++i) {
         diceRolls[i] = 0
     }
     
-    for (var i = 0; i < 1000; ++i) {
+    for (var i = 0; i < 10000; ++i) {
         for (var j = 0; j < amount; ++j) {
             diceRolls[i] += math.randomInt(1, parseInt(dice) + 1);
         }
@@ -60,7 +60,7 @@ function computeHistogram(diceRolls) {
     
     //Normalizing
     for (var i = 0; i < histogram.length; ++i){
-        histogram[i] = 100*histogram[i]/1000;
+        histogram[i] = histogram[i];
     }
     
     return histogram;
