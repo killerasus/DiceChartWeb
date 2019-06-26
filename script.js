@@ -23,18 +23,20 @@ SOFTWARE.
 ***/
 
 var myChart;
+var rolls = 5000;
 
 function computeRolls(dice, amount) {
     var diceRolls = [];
+    var diceValue = parseInt(dice) + 1;
 
     // Initializes the array
-    for (var i = 0; i < 10000; ++i) {
+    for (var i = 0; i < rolls; ++i) {
         diceRolls[i] = 0
     }
     
-    for (var i = 0; i < 10000; ++i) {
+    for (var i = 0; i < rolls; ++i) {
         for (var j = 0; j < amount; ++j) {
-            diceRolls[i] += math.randomInt(1, parseInt(dice) + 1);
+            diceRolls[i] += math.randomInt(1, diceValue);
         }
     }
 
@@ -60,7 +62,7 @@ function computeHistogram(diceRolls) {
     
     //Normalizing
     for (var i = 0; i < histogram.length; ++i){
-        histogram[i] = histogram[i];
+        histogram[i] = 100*histogram[i]/rolls;
     }
     
     return histogram;
@@ -87,15 +89,25 @@ function generateChart() {
     if (myChart != null)
         myChart.destroy();
     
-    myChart = new Chart(context, {
+    myChart = new Chart(context, 
+    {
         type: 'bar',
         data: {
             labels: resultLabels,
-            datasets: [{
+            datasets: [
+            {
                 label: 'Result Probability',
                 data: histogram,
                 borderWidth: 1
-            }]
+            },
+            {
+                label: 'Probability curve',
+                data: histogram,
+                cubicInterpolationMode: 'monotone',
+                backgroundColor: 'rgba(1,0,0,0)',
+                type: 'line'
+            }
+            ]
         },
         options: {
             scales: {
